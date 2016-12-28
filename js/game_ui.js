@@ -1,4 +1,4 @@
-var GameUI = {
+const GameUI = {
 	displayStartUpPage: function() {
 		var self = this;
 		var body = document.querySelector('body');
@@ -27,6 +27,7 @@ var GameUI = {
 		container.append(header);
 		body.append(container);
 	},
+	
 	displayNewGameBoard: function() {
 		var body = document.querySelector('body');
 
@@ -61,12 +62,18 @@ var GameUI = {
 		body.innerHTML = '';
 		body.append(container);
 
-		new Board(document.querySelector('.boxes'));
+		// Generate a new set of squares
+		for(var i = 1; i <= 9; i++) {
+			var square = new Square(i);
+			document.querySelector('.boxes').append(square.listItem);
+		}
 
+		// If player clicks new game button reset the game
 		if(game.totalSquaresOccupied > 0) { 
 			game = new Game();
 		}
 	},
+
 	displayWinScreen: function(winnerClass) {
 		var self = this;
 		var body = document.querySelector('body');

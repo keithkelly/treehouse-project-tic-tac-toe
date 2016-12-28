@@ -1,4 +1,4 @@
-var Player = (function() {
+const Player = (function() {
 	'use strict';
 
 	function Player(svgPath, boxClass, winClass) {
