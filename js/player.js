@@ -1,13 +1,13 @@
 const Player = (function() {
-	'use strict';
+  'use strict';
 
-	function Player(svgPath, boxClass, winClass) {
-		this.boxClass = boxClass;
+  function Player(svg, boxClass, winClass) {
+    this.boxClass = boxClass;
     this.name = null;
-		this.svg = svgPath;
-		this.squaresOccupied = [];
-		this.winClass = winClass;
-	};
+    this.squaresOccupied = [];
+    this.svg = svg;
+    this.winClass = winClass;
+  };
 
-	return Player;
+  return Player;
 }());
