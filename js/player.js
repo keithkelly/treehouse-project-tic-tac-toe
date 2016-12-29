@@ -3,6 +3,7 @@ const Player = (function() {
 
 	function Player(svgPath, boxClass, winClass) {
 		this.boxClass = boxClass;
+    this.name = null;
 		this.svg = svgPath;
 		this.squaresOccupied = [];
 		this.winClass = winClass;

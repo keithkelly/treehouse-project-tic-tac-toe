@@ -47,9 +47,26 @@ h1 {
     .screen-start h1 {
       font-size: 6em; }
     .screen-start .button {
-      color: #54D17A; }
+      color: #54D17A;
+      margin: 0 0.5em; }
+    .screen-start .button:disabled {
+      background: #ccc;
+      color: #f5f5f5; }
     .screen-start h1 + .button {
       margin-top: 5em; }
+    .screen-start .name-input {
+      margin: 2em; }
+    .screen-start .name-input input {
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+      outline: none;
+      padding: 0.75em;
+      width: 20em; }
+    .screen-start .name-input label {
+      color: #fff;
+      display: block;
+      margin-bottom: 0.5em; }
   .screen-win p {
     font-size: 6em;
     font-weight: 700;

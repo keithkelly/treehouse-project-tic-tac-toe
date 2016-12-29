@@ -1,3 +1,4 @@
 // Initiate app
 var game = new Game();
-GameUI.displayStartUpPage();
+var game_ui = new GameUI();
+game_ui.displayStartUpPage();

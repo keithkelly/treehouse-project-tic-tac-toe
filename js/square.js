@@ -24,9 +24,9 @@ const Square = (function() {
 
 				// Check if there is a winner to the game
 				if(game.checkForWinner()) {
-					GameUI.displayWinScreen(game.currentPlayer.winClass);
+					game_ui.displayWinScreen(game.currentPlayer.winClass, game.currentPlayer.name);
 				} else if(game.totalSquaresOccupied === 9) {
-					GameUI.displayWinScreen('screen-win-tie');
+					game_ui.displayWinScreen('screen-win-tie', null);
 				} else {
 					game.toggleCurrentPlayer();
 				}

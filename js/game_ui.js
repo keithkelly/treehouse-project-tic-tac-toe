@@ -1,117 +1,146 @@
-const GameUI = {
-	displayStartUpPage: function() {
-		var self = this;
-		var body = document.querySelector('body');
+const GameUI = (function() {
+  'use strict';
 
-		// Build start screen elements
-		var container = document.createElement('div');
-		var header = document.createElement('header');
-		var title = document.createElement('h1');
-		var button = 	document.createElement('a');
+  function GameUI() {
+  	this.body = document.querySelector('body');
+    this.player1Name = null;
+    this.player1Name = null;
+  };
 
-		// Add element attributes
-		container.classList.add('screen', 'screen-start');
-		title.innerText = 'Tic Tac Toe';
-		button.setAttribute('href', '#');
-		button.classList.add('button');
-		button.innerText = 'Start game';
+  GameUI.prototype.displayNewGameBoard = function() {
+    // If player clicks new game button reset the game and player names
+    if(game.totalSquaresOccupied > 0) { 
+      game = new Game();
+      game.player1.name = this.player1Name;
+      game.player2.name = this.player2Name;
+    }
 
-		// Add event listeners
-		button.addEventListener('click', function() {
-			self.displayNewGameBoard();
-		});
+    let html = '';
+    html += '<div class="board" id="board">';
+    html += '<header>';
+    html += '<h1>Tic Tac Toe</h1>';
+    html += '<ul>';
+    html += '<li class="players active" id="player1">' + game.player1.name + '</li>';
+    html += '<li class="players" id="player2">' + game.player2.name + '</li>';
+    html += '</ul>';
+    html += '</header>';
+    html += '<ul class="boxes"></ul>';
+    html += '</div>';
+    this.body.innerHTML = html;
 
-		// Add start screen elements to the DOM
-		header.append(title);
-		header.append(button);
-		container.append(header);
-		body.append(container);
-	},
-	
-	displayNewGameBoard: function() {
-		var body = document.querySelector('body');
+    // Generate a new set of squares
+    for(var i = 1; i <= 9; i++) {
+      var square = new Square(i);
+      document.querySelector('.boxes').append(square.listItem);
+    }
+  };
 
-		// Build new board elements
-		var container = document.createElement('div');
-		var header = document.createElement('header');
-		var title = document.createElement('h1');
-		var headerList = document.createElement('ul');
-		var boxesList = document.createElement('ul');
-		var listItem1 = document.createElement('li');
-		var listItem2 = document.createElement('li');
+  GameUI.prototype.displayStartUpPage = function() {
+    const self = this;
+    let html = '';
+    html += '<div class="screen screen-start">';
+    html += '<header>';
+    html += '<h1>Tic Tac Toe</h1>';
+    html += '<a href="#" class="button" id="one-player">One Player Game</a>';
+    html += '<a href="#" class="button" id="two-players">Two Player Game</a>';
+    html += '</header>';
+    html += '</div>';
 
-		// Add element attributes
-		container.classList.add('board');
-		container.id = 'board';
-		title.innerText = 'Tic Tac Toe';
-		boxesList.classList.add('boxes');
-		listItem1.classList.add('players', 'active');
-		listItem1.id = 'player1';
-		listItem1.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-200.000000, -60.000000)" fill="#000000"><g transform="translate(200.000000, 60.000000)"><path d="M21 36.6L21 36.6C29.6 36.6 36.6 29.6 36.6 21 36.6 12.4 29.6 5.4 21 5.4 12.4 5.4 5.4 12.4 5.4 21 5.4 29.6 12.4 36.6 21 36.6L21 36.6ZM21 42L21 42C9.4 42 0 32.6 0 21 0 9.4 9.4 0 21 0 32.6 0 42 9.4 42 21 42 32.6 32.6 42 21 42L21 42Z"/></g></g></g></svg>';
-		listItem2.classList.add('players');
-		listItem2.id = 'player2';
-		listItem2.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="42" height="43" viewBox="0 0 42 43" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-718.000000, -60.000000)" fill="#000000"><g transform="translate(739.500000, 81.500000) rotate(-45.000000) translate(-739.500000, -81.500000) translate(712.000000, 54.000000)"><path d="M30 30.1L30 52.5C30 53.6 29.1 54.5 28 54.5L25.5 54.5C24.4 54.5 23.5 53.6 23.5 52.5L23.5 30.1 2 30.1C0.9 30.1 0 29.2 0 28.1L0 25.6C0 24.5 0.9 23.6 2 23.6L23.5 23.6 23.5 2.1C23.5 1 24.4 0.1 25.5 0.1L28 0.1C29.1 0.1 30 1 30 2.1L30 23.6 52.4 23.6C53.5 23.6 54.4 24.5 54.4 25.6L54.4 28.1C54.4 29.2 53.5 30.1 52.4 30.1L30 30.1Z"/></g></g></g></svg>';
+    this.body.innerHTML = html;
 
-		// Add elements to the DOM
-		headerList.append(listItem1);
-		headerList.append(listItem2);
-		header.append(title);
-		header.append(headerList);
-		container.append(header);
-		container.append(boxesList);
-		body.innerHTML = '';
-		body.append(container);
+    document.getElementById('one-player').addEventListener('click', function() {
+      self.nameInput(1);
+      self.startGameButton();
 
-		// Generate a new set of squares
-		for(var i = 1; i <= 9; i++) {
-			var square = new Square(i);
-			document.querySelector('.boxes').append(square.listItem);
-		}
+      const input = document.getElementById('player1');
+      const button = document.getElementById('start-game');
 
-		// If player clicks new game button reset the game
-		if(game.totalSquaresOccupied > 0) { 
-			game = new Game();
-		}
-	},
+      input.addEventListener('keyup',function() {
+        input.value.length > 0 ? button.removeAttribute('disabled') : button.setAttribute('disabled', 'disabled');
+      }, false);
+    }, false);
 
-	displayWinScreen: function(winnerClass) {
-		var self = this;
-		var body = document.querySelector('body');
+    document.getElementById('two-players').addEventListener('click', function() {
+      self.nameInput(1);
+      self.nameInput(2);
+      self.startGameButton();
 
-		// Build new board elements
-		var container = document.createElement('div');
-		var header = document.createElement('header');
-		var title = document.createElement('h1');
-		var paragraph = document.createElement('p');
-		var button = document.createElement('a');
+      const input1 = document.getElementById('player1');
+      const input2 = document.getElementById('player2');
+      const button = document.getElementById('start-game');
 
-		// Add element attributes
-		container.classList.add('screen', 'screen-win', winnerClass);
-		container.id = 'finish';
-		title.innerText = 'Tic Tac Toe';
-		paragraph.classList.add('message');
+      input1.addEventListener('keyup',function() {
+        input1.value.length > 0 && input2.value.length > 0 ? button.removeAttribute('disabled') : button.setAttribute('disabled', 'disabled');
+      }, false);
 
-		if(winnerClass === 'screen-win-tie') {
-			paragraph.innerText = 'It\'s a Tie!';
-		} else {
-			paragraph.innerText = 'Winner!';
-		}
+      input2.addEventListener('keyup',function() {
+        input1.value.length > 0 && input2.value.length > 0 ? button.removeAttribute('disabled') : button.setAttribute('disabled', 'disabled');
+      }, false);
+    }, false);
+  };
 
-		button.setAttribute('href', '#');
-		button.classList.add('button');
-		button.id = 'start';
-		button.innerText = 'New Game';
+  GameUI.prototype.displayWinScreen = function(winnerClass, winnerName) {
+    const self = this;
+    let html = '';
+    html += '<div class="screen screen-win ' + winnerClass + '" id="finish">';
+    html += '<header>';
+    html += '<h1>Tic Tac Toe</h1>';
+    html += '<p class="message">';
 
-		// Add event listeners
-		button.addEventListener('click', function() {
-			self.displayNewGameBoard();
-		});
+    if(winnerClass === 'screen-win-tie') {
+      html += 'It\'s a Tie!';
+    } else {
+      html += winnerName + ' is the Winner!';
+    }
 
-		header.append(title);
-		header.append(paragraph);
-		header.append(button);
-		container.append(header);
-		body.innerHTML = '';
-		body.append(container);
-	}
-};
+    html += '</p>';
+    html += '<a href="#" class="button" id="start">New Game</a>';
+    html += '</header>';
+    html += '</div>';
+    this.body.innerHTML = html;
+    
+    document.getElementById('start').addEventListener('click', function() {
+      self.displayNewGameBoard();
+    });
+  }
+
+  GameUI.prototype.nameInput = function(index) {
+    const header = document.querySelector('header');
+    const div = document.createElement('div');
+    let html = '';
+
+    html += '<label for="player' + index + '">Player ' + index + ' Name</label>';
+    html += '<input type="text" id="player' + index + '">';
+
+    div.innerHTML = html;
+    div.classList.add('name-input');
+
+    header.append(div);
+  };
+
+  GameUI.prototype.startGameButton = function() {
+    const self = this;
+    const header = document.querySelector('header');
+    const button = document.createElement('button');
+
+    button.setAttribute('disabled', 'disabled');
+    button.id = 'start-game';
+    button.classList.add('button');
+    button.innerText = 'Start Game';
+
+    button.addEventListener('click', function() {
+      self.player1Name = game.player1.name = document.getElementById('player1').value;
+      if(document.getElementById('player2')) {
+        self.player2Name = game.player2.name = document.getElementById('player2').value;
+      } else {
+        self.player2Name = game.player2.name = 'Computer';
+      }
+
+      self.displayNewGameBoard();
+    }, false);
+
+    header.append(button);
+  };
+
+  return GameUI;
+}());
