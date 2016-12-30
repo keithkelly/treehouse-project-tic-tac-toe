@@ -76,7 +76,7 @@ const Board = (function() {
 
     // Determine which square occurs most often and choose it
     // If there are multiple of the same value then the first will be chosen
-    for(var p = 0; p < numbersCount.length; p++) {
+    for(let p = 0; p < numbersCount.length; p++) {
       if(numbersCount[p] > maxNumber) {
         if(!this.squares[p].isOccupied && immediateAction === false) {
           chosenSquare = p;
@@ -96,10 +96,6 @@ const Board = (function() {
     squareUI.classList.add(game.currentPlayer.boxClass);
     squareUI.style.cursor = 'default';
     board.openSquaresCount--;
-  };
-
-  Board.prototype.checkConfigs = function() {
-    
   };
 
   // Checks if the current users occupied squares match any of the win configurations
