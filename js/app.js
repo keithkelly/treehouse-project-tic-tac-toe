@@ -1,3 +1,4 @@
 // Initiate app
-var game = new Game();
+let game = new Game();
+let board = new Board();
 gameUI.loadStartPage();

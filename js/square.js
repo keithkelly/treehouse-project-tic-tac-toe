@@ -7,33 +7,23 @@ const Square = (function() {
 
     this.index = index;
     this.isOccupied = false;
+    this.occupyingPlayer = null;
 
     this.square = document.createElement('li');
     this.square.classList.add('box');
+    this.square.id = 'box' + index;
 
     // Occupy square and progress game
     this.square.addEventListener('click', function() {
       if(!self.isOccupied) {
-        self.isOccupied = true;
-        self.square.classList.add(game.currentPlayer.boxClass);
-        self.square.style.cursor = 'default';
-
-        game.currentPlayer.squaresOccupied.push(self.index);
-        game.totalSquaresOccupied += 1;
-
-        if(game.checkForWinner()) { 
-          gameUI.loadWinScreen(game.currentPlayer.winClass, game.currentPlayer.name); 
-        } else if(game.totalSquaresOccupied === 9) { 
-          gameUI.loadWinScreen('screen-win-tie', null); 
-        } else { 
-          game.toggleCurrentPlayer(); 
-        }
+        self.occupySquare();
+        board.progressGame();
       }
     }, false);
 
     // Show current players symbol when hovering over current unoccupied squares
     this.square.addEventListener('mouseenter', function() {
-      if(!self.isOccupied) { 
+      if(!self.isOccupied && !game.currentPlayer.isComputer) { 
         self.square.style.backgroundImage = 'url(' + game.currentPlayer.svg + ')'; 
       }
     }, false);
@@ -42,6 +32,14 @@ const Square = (function() {
     this.square.addEventListener('mouseout', function() {
       if(!self.isOccupied) { self.square.style.backgroundImage = ''; }
     }, false);
+  };
+
+  Square.prototype.occupySquare = function() {
+    this.isOccupied = true;
+    this.occupyingPlayer = game.currentPlayer.playerNumber;
+    this.square.classList.add(game.currentPlayer.boxClass);
+    this.square.style.cursor = 'default';
+    board.openSquaresCount--;
   }
 
   return Square;
