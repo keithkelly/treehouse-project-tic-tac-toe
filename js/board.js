@@ -59,7 +59,7 @@ const Board = (function() {
         break;
 
       // If no immediate action gather potential winning configurations
-      } else if(attackerSquares.length >= 0 && oppositionSquares.length === 0) {
+      } else if(attackerSquares.length >= 0 && oppositionSquares.length < 2) {
         for(let m = 0; m < currentConfig.length; m++) {
           attackerWinConfigs.push(currentConfig[m]);
         }

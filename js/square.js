@@ -38,6 +38,7 @@ const Square = (function() {
     this.isOccupied = true;
     this.occupyingPlayer = game.currentPlayer.playerNumber;
     this.square.classList.add(game.currentPlayer.boxClass);
+    this.square.style.backgroundImage = '';
     this.square.style.cursor = 'default';
     board.openSquaresCount--;
   }
